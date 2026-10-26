@@ -19,3 +19,11 @@ Thumbs.db
 
 # Configurações locais do editor
 .vscode/
+
+# Snowflake credentials
+.env
+
+# dbt generated files
+**/logs/
+**/target/
+**/dbt_packages/

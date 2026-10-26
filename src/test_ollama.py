@@ -3,6 +3,8 @@ import json
 import sys
 
 from validators import validar_mapeamento
+from csv_reader import extrair_colunas_csv, ler_registros_csv
+from transformer import aplicar_mapeamento
 
 # Endereço da API local do Ollama
 url = "http://localhost:11434/api/generate"
@@ -59,13 +61,7 @@ resultado = response.json()
 print(resultado["response"])
 
 # Colunas que realmente existem na origem
-colunas_origem = [
-    "ID_CLIENTE",
-    "DT",
-    "ITEM",
-    "QTD",
-    "PRECO_UN"
-]
+colunas_origem = extrair_colunas_csv("data/raw/vendas.csv")
 
 colunas_destino = [
     "customer_id",
@@ -89,6 +85,20 @@ erros = validar_mapeamento(
 if not erros:
     print("\nSTATUS FINAL: APROVADO")
     print("Mapeamento liberado para a próxima etapa.")
+    
+    registros = ler_registros_csv("data/raw/vendas.csv")
+
+    registros_transformados = aplicar_mapeamento(
+        registros,
+        mapeamento
+    )
+
+    print("\nREGISTROS TRANSFORMADOS:")
+
+    for registro in registros_transformados:
+        print(registro)
+
+    
 else:
     for erro in erros:
         print(f"ERRO: {erro}")
