@@ -5,6 +5,7 @@ import sys
 from validators import validar_mapeamento
 from csv_reader import extrair_colunas_csv, ler_registros_csv
 from transformer import aplicar_mapeamento
+from snowflake_loader import inserir_registros
 
 # Endereço da API local do Ollama
 url = "http://localhost:11434/api/generate"
@@ -85,7 +86,7 @@ erros = validar_mapeamento(
 if not erros:
     print("\nSTATUS FINAL: APROVADO")
     print("Mapeamento liberado para a próxima etapa.")
-    
+
     registros = ler_registros_csv("data/raw/vendas.csv")
 
     registros_transformados = aplicar_mapeamento(
@@ -98,7 +99,14 @@ if not erros:
     for registro in registros_transformados:
         print(registro)
 
-    
+    # Ingestão executada somente após aprovação
+    print("\nINICIANDO INGESTÃO NO SNOWFLAKE...")
+
+    inserir_registros(
+        registros=registros_transformados,
+        nome_arquivo="vendas.csv"
+    )
+
 else:
     for erro in erros:
         print(f"ERRO: {erro}")
