@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: raw
+    database: AI_DATA_INGESTION
+    schema: RAW
+
+    tables:
+      - name: sales
+        description: "Dados de vendas carregados pelo pipeline Python."

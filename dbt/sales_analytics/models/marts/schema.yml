@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: fct_sales
+    description: "Tabela fato de vendas, com granularidade de uma linha por item de venda."
+
+    columns:
+      - name: sales_line_key
+        description: "Identificador único da linha de venda."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: customer_key
+        description: "Chave de relacionamento com a dimensão de clientes."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_key
+
+      - name: product_key
+        description: "Chave de relacionamento com a dimensão de produtos."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_key
+
+      - name: date_key
+        description: "Chave de relacionamento com a dimensão de datas."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+
+      - name: quantity
+        description: "Quantidade vendida."
+        data_tests:
+          - not_null
+
+      - name: unit_price
+        description: "Preço unitário do produto."
+        data_tests:
+          - not_null
+
+      - name: total_amount
+        description: "Valor total da linha de venda."
+        data_tests:
+          - not_null

@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: stg_sales
+    description: "Vendas padronizadas a partir da camada RAW."
+
+    columns:
+      - name: customer_id
+        description: "Identificador do cliente."
+        data_tests:
+          - not_null
+
+      - name: sale_date
+        description: "Data da venda."
+        data_tests:
+          - not_null
+
+      - name: product
+        description: "Produto vendido."
+        data_tests:
+          - not_null
+
+      - name: quantity
+        description: "Quantidade vendida."
+        data_tests:
+          - not_null
+
+      - name: unit_price
+        description: "Preço unitário."
+        data_tests:
+          - not_null
+
+      - name: source_file
+        data_tests:
+          - not_null
+
+      - name: source_row_number
+        data_tests:
+          - not_null
